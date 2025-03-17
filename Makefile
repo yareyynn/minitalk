@@ -19,10 +19,10 @@ build:
 	mkdir -p build
 
 $(NAME_SERVER): $(NAME_LIB) $(OBJ_SERVER)
-	$(CC) $(CFLAGS) $(INCLUDES_H) $(NAME_LIB) $(OBJ_SERVER) -o $(NAME_SERVER)
+	$(CC) $(CFLAGS) $(OBJ_SERVER) $(NAME_LIB) -o $(NAME_SERVER)
 
 $(NAME_CLIENT): $(NAME_LIB) $(OBJ_CLIENT)
-	$(CC) $(CFLAGS) $(INCLUDES_H) $(NAME_LIB) $(OBJ_SERVER) -o $(NAME_CLIENT) 
+	$(CC) $(CFLAGS) $(OBJ_CLIENT) $(NAME_LIB) -o $(NAME_CLIENT)
 
 $(OBJ_SERVER): %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES_H) -c $< -o $@ 
