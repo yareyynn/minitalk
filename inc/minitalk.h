@@ -5,7 +5,8 @@
 # include <signal.h>
 # include "../libft/libft.h"
 
-void signal_handler(int signum);
-void send_char(pid_t server_pid, char c);
+void signal_handler(int signum, siginfo_t *info, void *context);
+void send_message(int pid, char *str);
+void get_message(char c, int pid);
 
 #endif

@@ -1,37 +1,56 @@
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "../inc/minitalk.h"
 
-void	send_char(pid_t server_pid, char c)
+char	*g_string;
+
+void signal_handler(int signum, siginfo_t *info, void *context)
 {
-	int	bit;
+	(void)context;
+	static int i;
+	static int bit;
 
-	bit = 8;
-	while (bit--)
+	if(bit == 0)
 	{
-		if ((c >> bit) & 1) 
-			kill(server_pid, SIGUSR2);
-		else 
-			kill(server_pid, SIGUSR1);
-		usleep(145);
+		bit = 8;
+		i++;
+	}
+	ft_printf("i = %d\n", i);
+	if(bit--)
+	{
+		if (signum == SIGUSR1)
+		{
+			if((g_string[i-1] >> bit) & 1)
+				kill(info->si_pid, SIGUSR2);
+			else
+					kill(info->si_pid, SIGUSR1);
+		}
+		else if (signum == SIGUSR2)
+		{
+			ft_printf("Message is received\n");
+			exit(0);
+		}
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	pid_t	server_pid;
-	int		i;
-    printf("ananı skm");
+	struct sigaction	c_sa;
+
 	if (argc != 3)
 	{
-		write(2, "Kullanım: ./client <Server_PID> <Mesaj>\n", 40);
+		ft_printf("Usage is: build/client <<Server_PID>> <<Mesaj>>\n");
 		return (1);
 	}
-	server_pid = atoi(argv[1]);
-	i = 0;
-	while (argv[2][i])
-		send_char(server_pid, argv[2][i++]);
-	send_char(server_pid, '\n');
+
+	g_string = argv[2];
+	c_sa.sa_flags = SA_SIGINFO;
+	c_sa.sa_sigaction = signal_handler;
+
+	kill(ft_atoi(argv[1]), SIGUSR1);
+	sigaction(SIGUSR2, &c_sa, NULL);
+	sigaction(SIGUSR1, &c_sa, NULL);
+
+	while (1)
+		pause();
+
 	return (0);
 }
