@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysakarya  <ysakarya@student.42istanb>      +#+  +:+       +#+        */
+/*   By: yarensakarya <yarensakarya@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:57:21 by ysakarya          #+#    #+#             */
-/*   Updated: 2024/11/14 19:57:21 by ysakarya         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:26:37 by yarensakary      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

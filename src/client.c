@@ -8,27 +8,29 @@ void signal_handler(int signum, siginfo_t *info, void *context)
 	static int i;
 	static int bit;
 
-	if(bit == 0)
-	{
-		bit = 8;
-		i++;
-	}
-	ft_printf("i = %d\n", i);
-	if(bit--)
-	{
-		if (signum == SIGUSR1)
-		{
-			if((g_string[i-1] >> bit) & 1)
-				kill(info->si_pid, SIGUSR2);
-			else
-					kill(info->si_pid, SIGUSR1);
-		}
-		else if (signum == SIGUSR2)
-		{
-			ft_printf("Message is received\n");
-			exit(0);
-		}
-	}
+ft_printf("i = %d\n", i);
+
+if (signum == SIGUSR2)
+{
+    ft_printf("Message is received\n");
+    exit(0);
+}
+
+if (signum == SIGUSR1)
+{
+    if ((g_string[i] >> (7 - bit)) & 1)
+        kill(info->si_pid, SIGUSR2);
+    else
+        kill(info->si_pid, SIGUSR1);
+    bit++;
+
+    if (bit == 8)
+    {
+        bit = 0;
+        i++;
+    }
+}
+
 }
 
 int	main(int argc, char **argv)
